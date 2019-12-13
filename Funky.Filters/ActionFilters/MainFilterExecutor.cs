@@ -25,6 +25,10 @@ namespace Funky.Filters.ActionFilters
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Retrieves all the filter result values in the current HttpContext
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<KeyValuePair<string,bool>> GetFilterResults()
         {
             var results = this.httpContextAccesor.HttpContext.Items
@@ -34,6 +38,10 @@ namespace Funky.Filters.ActionFilters
             return results;
         }
 
+        /// <summary>
+        /// Execute all avialiable filters
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> ExecuteAll()
         {
             var result = true;
@@ -50,6 +58,11 @@ namespace Funky.Filters.ActionFilters
             return result;
         }
 
+        /// <summary>
+        /// Execute all avialiable filters mapped to the callerName, defaults to the caller method name
+        /// </summary>
+        /// <param name="callerName"></param>
+        /// <returns></returns>
         public async Task<bool> ExecuteMapped([CallerMemberName] string callerName = "")
         {
             if (!this.filters.Any()) return false;
