@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/jmolla31/Funky</RepositoryUrl>
     <Description>NetStandard extensions and utilities set, focused towards Azure Functionsand serverless applications.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>FunkyUtils</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
