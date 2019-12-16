@@ -1,7 +1,10 @@
 ﻿using Funky.Filters.Auth;
+using IdentityModel.Client;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
 
 namespace Funky.Filters.Extensions.DependencyInjection
@@ -17,6 +20,21 @@ namespace Funky.Filters.Extensions.DependencyInjection
         public static IServiceCollection AddAuthConfig(this IServiceCollection services, AuthConfig config)
         {
             services.AddSingleton(config);
+
+            return services;
+        }
+
+        public static IServiceCollection AddDiscoveryCache(this IServiceCollection services, AuthConfig config = null)
+        {
+            var authority = config.Authority ?? (services.FirstOrDefault(x => x.ServiceType == typeof(AuthConfig)).ImplementationInstance as AuthConfig).Authority;
+
+            if (!services.Any(x => x.ServiceType == typeof(IHttpClientFactory))) services.AddHttpClient();
+
+            services.AddSingleton<IDiscoveryCache>(r =>
+            {
+                var factory = r.GetRequiredService<IHttpClientFactory>();
+                return new DiscoveryCache(authority, () => factory.CreateClient());
+            });
 
             return services;
         }
