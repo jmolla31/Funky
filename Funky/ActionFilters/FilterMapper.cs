@@ -14,5 +14,7 @@ namespace Funky.Filters.ActionFilters
         public void MapFilter<TFilter>(string actionName) => this.FilterMappings.Add(new KeyValuePair<string, Type>(actionName, typeof(TFilter)));
 
         public IEnumerable<Type> GetFilters(string actionName) => this.FilterMappings.Where(x => x.Key == actionName).Select(y => y.Value);
+
+        public Type GetSingleFilter(string actionName) => this.FilterMappings.FirstOrDefault(x => x.Key == actionName).Value;
     }
 }

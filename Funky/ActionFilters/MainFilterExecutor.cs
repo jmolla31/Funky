@@ -82,5 +82,21 @@ namespace Funky.Filters.ActionFilters
 
             return result;
         }
+
+        /// <summary>
+        /// Executes a single TFilter and returns the result without storing it in the context items collection
+        /// </summary>
+        /// <typeparam name="TFilter"></typeparam>
+        /// <returns></returns>
+        public async Task<bool> ExecuteSingle<TFilter>()
+        {
+            if (!this.filters.Any()) return false;
+
+            var @type = typeof(TFilter);
+
+            var executionResult = await this.filters.FirstOrDefault(x => x.GetType() == @type).ExecuteFilter(httpContextAccesor);
+
+            return executionResult;
+        }
     }
 }
