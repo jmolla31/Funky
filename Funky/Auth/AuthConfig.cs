@@ -1,5 +1,5 @@
 ﻿
-namespace Funky.Filters.Auth
+namespace Funky.Auth
 {
     public class AuthConfig
     {

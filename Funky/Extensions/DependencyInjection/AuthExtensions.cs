@@ -1,4 +1,5 @@
-﻿using Funky.Filters.Auth;
+﻿using Funky.Auth;
+using Funky.Auth.B2C;
 using IdentityModel.Client;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 
-namespace Funky.Filters.Extensions.DependencyInjection
+namespace Funky.Extensions.DependencyInjection
 {
     public static partial class ServiceCollectionExtensions
     {
@@ -26,7 +27,8 @@ namespace Funky.Filters.Extensions.DependencyInjection
 
         public static IServiceCollection AddDiscoveryCache(this IServiceCollection services, AuthConfig config = null)
         {
-            var authority = config.Authority ?? (services.FirstOrDefault(x => x.ServiceType == typeof(AuthConfig)).ImplementationInstance as AuthConfig).Authority;
+            var authority = (services.AddSingleton(config).FirstOrDefault(x => x.ServiceType == typeof(AuthConfig)).ImplementationInstance as AuthConfig).Authority
+                ?? (services.FirstOrDefault(x => x.ServiceType == typeof(AuthConfig)).ImplementationInstance as AuthConfig).Authority;
 
             if (!services.Any(x => x.ServiceType == typeof(IHttpClientFactory))) services.AddHttpClient();
 
@@ -35,6 +37,18 @@ namespace Funky.Filters.Extensions.DependencyInjection
                 var factory = r.GetRequiredService<IHttpClientFactory>();
                 return new DiscoveryCache(authority, () => factory.CreateClient());
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddB2CDiscoveryCache(this IServiceCollection services, AuthConfig config = null)
+        {
+            var authority = (services.AddSingleton(config).FirstOrDefault(x => x.ServiceType == typeof(AuthConfig)).ImplementationInstance as AuthConfig).Authority
+                ?? (services.FirstOrDefault(x => x.ServiceType == typeof(AuthConfig)).ImplementationInstance as AuthConfig).Authority;
+
+            if (!services.Any(x => x.ServiceType == typeof(IHttpClientFactory))) services.AddHttpClient();
+
+            services.AddSingleton<IB2CDiscoveryCache, B2CDiscoveryCache>();
 
             return services;
         }

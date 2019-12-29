@@ -18,10 +18,10 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Funky.Auth
-{
 
-    public sealed class JwtValidator : FunctionInvocationFilterAttribute
+namespace Funky.Auth.B2C
+{
+    public sealed class JwtB2CValidator : FunctionInvocationFilterAttribute
     {
         public override async Task OnExecutingAsync(FunctionExecutingContext executingContext, CancellationToken cancellationToken)
         {
@@ -29,10 +29,10 @@ namespace Funky.Auth
 
             var currentContext = request.HttpContext;
 
-            if (!(currentContext.RequestServices.GetService(typeof(AuthConfig)) is AuthConfig authConfig)) 
+            if (!(currentContext.RequestServices.GetService(typeof(AuthConfig)) is AuthConfig authConfig))
                 throw new ArgumentNullException("Couldn't load AuthConfig class form dependency injection.");
 
-            if (!(currentContext.RequestServices.GetService(typeof(IDiscoveryCache)) is IDiscoveryCache discoveryCache))
+            if (!(currentContext.RequestServices.GetService(typeof(IB2CDiscoveryCache)) is IB2CDiscoveryCache discoveryCache))
                 throw new ArgumentNullException("Couldn't load DiscoveryCache class form dependency injection.");
 
             var jwtHeader = currentContext.Request.Headers.FirstOrDefault(x => x.Key == AuthConstants.Authorization);
@@ -62,30 +62,16 @@ namespace Funky.Auth
             }
         }
 
-        private async Task<TokenValidationParameters> GetTokenValidationParameters(AuthConfig authConfig, IDiscoveryCache discoveryCache)
+        private async Task<TokenValidationParameters> GetTokenValidationParameters(AuthConfig authConfig, IB2CDiscoveryCache discoveryCache)
         {
             var disco = await discoveryCache.GetAsync();
-
-            var keys = new List<SecurityKey>();
-            foreach (var webKey in disco.KeySet.Keys)
-            {
-                var e = Base64Url.Decode(webKey.E);
-                var n = Base64Url.Decode(webKey.N);
-
-                var key = new RsaSecurityKey(new RSAParameters { Exponent = e, Modulus = n })
-                {
-                    KeyId = webKey.Kid
-                };
-
-                keys.Add(key);
-            }
 
             TokenValidationParameters validationParameters =
             new TokenValidationParameters
             {
                 ValidIssuer = authConfig.Authority,
                 ValidAudiences = new[] { authConfig.Audience },
-                IssuerSigningKeys = keys,
+                IssuerSigningKeys = disco.SigningKeys,
                 RequireSignedTokens = true
                 // TODO:  Scopes
             };

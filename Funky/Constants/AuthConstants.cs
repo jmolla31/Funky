@@ -19,5 +19,7 @@ namespace Funky.Filters.Constants
         public const string AzpacrClientSecret = "1";
         
         public const string AzpacrCertificate = "2";
+
+        public const string B2CIdp = "idp";
     }
 }

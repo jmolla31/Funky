@@ -9,9 +9,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Funky.Filters;
 using Funky.Filters.ActionFilters;
-using Funky.Filters.Auth;
 using Funky.Filters.Extensions.HttpCtx;
 using System.Diagnostics;
+using Funky.Auth.B2C;
 
 namespace Funky
 {
@@ -28,14 +28,14 @@ namespace Funky
 
 
         [FunctionName(nameof(JwtTest))]
-        [JwtValidator]
+        [JwtB2CValidator]
         public async Task<IActionResult> JwtTest(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
 
             this.httpContext.AuthorizedByClientSecret();
-
+            /*
             var watch = Stopwatch.StartNew();
             await mainFilterExecutor.ExecuteMapped();
 
@@ -46,7 +46,7 @@ namespace Funky
             watch.Stop();
 
             var ticks = watch.ElapsedTicks;
-
+            */
 
             if (this.httpContext.IsUserAnonymous()) return new UnauthorizedResult();
 

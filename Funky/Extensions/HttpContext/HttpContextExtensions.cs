@@ -49,6 +49,13 @@ namespace Funky.Filters.Extensions.HttpCtx
         /// <param name="ctx"></param>
         /// <returns></returns>
         public static bool AuthorizedByCertificate(this HttpContext ctx) => ctx.User.Claims.Any(x => x.Type == AuthConstants.ClientSecretAuthClaim && x.Value == AuthConstants.AzpacrCertificate);
+
+        /// <summary>
+        /// ONLY FOR AZURE B2C TOKENS, returns the identity provider that has authorized the current user (ex: google, github, twitter)
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
+        public static string GetB2CTokenIdp(this HttpContext ctx) => ctx.User.Claims.FirstOrDefault(x => x.Type == AuthConstants.B2CIdp).Value;
     }
 }
     
