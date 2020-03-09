@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <Authors>javimollamico</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/jmolla31/Funky</PackageProjectUrl>
