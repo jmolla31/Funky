@@ -37,25 +37,31 @@ namespace Funky.Filters.Extensions.HttpCtx
         public static bool IsUserAnonymous(this HttpContext ctx) => ctx.Items.ContainsKey(AuthConstants.AnonymousUser);
 
         /// <summary>
-        /// ONLY FOR AZURE AD TOKENS, Returns if the token has been generated using a ClientId and ClientSecret.
+        /// ONLY FOR AZURE AD, Returns if the token has been generated using a ClientId and ClientSecret.
         /// </summary>
         /// <param name="ctx"></param>
         /// <returns></returns>
         public static bool AuthorizedByClientSecret(this HttpContext ctx) => ctx.User.Claims.Any(x => x.Type == AuthConstants.ClientSecretAuthClaim && x.Value == AuthConstants.AzpacrClientSecret);
 
         /// <summary>
-        /// ONLY FOR AZURE AD TOKENS, Returns if the token has been generated using a Certificate.
+        /// ONLY FOR AZURE AD, Returns if the token has been generated using a Certificate.
         /// </summary>
-        /// <param name="ctx"></param>
+        /// <param name="ctx">Http context</param>
         /// <returns></returns>
         public static bool AuthorizedByCertificate(this HttpContext ctx) => ctx.User.Claims.Any(x => x.Type == AuthConstants.ClientSecretAuthClaim && x.Value == AuthConstants.AzpacrCertificate);
 
         /// <summary>
-        /// ONLY FOR AZURE B2C TOKENS, returns the identity provider that has authorized the current user (ex: google, github, twitter)
+        /// ONLY FOR AZURE B2C, returns the identity provider that has authorized the current user (ex: google, github, twitter)
         /// </summary>
-        /// <param name="ctx"></param>
+        /// <param name="ctx">Http context</param>
         /// <returns></returns>
         public static string GetB2CTokenIdp(this HttpContext ctx) => ctx.User.Claims.FirstOrDefault(x => x.Type == AuthConstants.B2CIdp).Value;
+
+        /// <summary>
+        /// ONLY FOR AZURE B2C, returns all the custom attributes (claims) present in the current token.
+        /// </summary>
+        /// <param name="ctx">Http context</param>
+        /// <returns></returns>
+        public static IEnumerable<Claim> GetB2CCustomAttributes(this HttpContext ctx) => ctx.User.FindAll(x => x.Type.StartsWith(AuthConstants.B2CCustomAttrPrefix));
     }
 }
-    
