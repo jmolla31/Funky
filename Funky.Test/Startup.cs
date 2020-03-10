@@ -18,11 +18,10 @@ namespace Funky
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddB2CDiscoveryCache(new AuthConfig
+            builder.Services.AddJwtValidator(new AuthConfig
             {
-                Authority = "https://wallaridedev.b2clogin.com/75488c85-e9ad-4aa4-9051-8ac245355c69/v2.0/",
+                Authority = "https://wallaridedev.b2clogin.com/tfp/75488c85-e9ad-4aa4-9051-8ac245355c69/b2c_1_registerlogin/v2.0/",
                 Audience = "d6d23883-698f-4906-aa9b-03f8a8bd7403",
-                DiscoveryUrl = "https://wallaridedev.b2clogin.com/75488c85-e9ad-4aa4-9051-8ac245355c69/v2.0/.well-known/openid-configuration?p=B2C_1_login2"
             });
 
             builder.Services
