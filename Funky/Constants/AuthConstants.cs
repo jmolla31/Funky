@@ -14,6 +14,8 @@ namespace Funky.Filters.Constants
 
         public const string Authorization = "Authorization";
 
+        public const string BearerPrefix = "Bearer ";
+
         public const string ClientSecretAuthClaim = "azpacr";
 
         public const string AzpacrClientSecret = "1";

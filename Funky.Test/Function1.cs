@@ -28,7 +28,7 @@ namespace Funky
 
 
         [FunctionName(nameof(JwtTest))]
-        [JwtB2CValidator]
+        [JwtValidatorService]
         public async Task<IActionResult> JwtTest(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)

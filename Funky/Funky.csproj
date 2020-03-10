@@ -1,28 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>0.0.3</Version>
-    <Authors>javimollamico</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>javimollamico, jmollami</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/jmolla31/Funky</PackageProjectUrl>
-    <PackageReleaseNotes>Added B2C specific validator and discovery document cache, bumped version netstandard version to 2.1</PackageReleaseNotes>
+    <PackageReleaseNotes>Rewrited auth logic, abandoned function filters for a DI-based approach</PackageReleaseNotes>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/jmolla31/Funky</RepositoryUrl>
-    <Description>NetStandard extensions and utilities set, focused towards Azure Functionsand serverless applications.</Description>
+    <Description>NetStandard extensions and utilities set, focused towards Azure Functions and serverless applications.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>FunkyUtils</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.14" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.16" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.6.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>
 
 </Project>

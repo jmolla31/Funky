@@ -1,11 +1,10 @@
-﻿using IdentityModel.Client;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+﻿using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Threading.Tasks;
 
-namespace Funky.Auth.B2C
+namespace Funky.Auth
 {
-    public interface IB2CDiscoveryCache
+    public interface IDiscoveryCache
     {
         TimeSpan CacheDuration { get; set; }
 
