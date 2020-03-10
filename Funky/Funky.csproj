@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>javimollamico, jmollami</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/jmolla31/Funky</PackageProjectUrl>
-    <PackageReleaseNotes>Rewrited auth logic, abandoned function filters for a DI-based approach</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated IdentityModel dependency version, added missing constants and new extensions to HttpContext</PackageReleaseNotes>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/jmolla31/Funky</RepositoryUrl>
     <Description>NetStandard extensions and utilities set, focused towards Azure Functions and serverless applications.</Description>
@@ -20,7 +20,7 @@
     <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.16" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.6.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.5.0" />
   </ItemGroup>
 
 </Project>

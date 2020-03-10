@@ -11,7 +11,7 @@ using Funky.Filters;
 using Funky.Filters.ActionFilters;
 using Funky.Filters.Extensions.HttpCtx;
 using System.Diagnostics;
-using Funky.Auth.B2C;
+using Funky.Auth;
 
 namespace Funky
 {
@@ -19,20 +19,23 @@ namespace Funky
     {
         private readonly HttpContext httpContext;
         private readonly MainFilterExecutor mainFilterExecutor;
+        private readonly IJwtValidatorService jwtValidatorService;
 
-        public Function1(IHttpContextAccessor httpContextAccessor, MainFilterExecutor mainFilterExecutor)
+        public Function1(IHttpContextAccessor httpContextAccessor, MainFilterExecutor mainFilterExecutor, IJwtValidatorService jwtValidatorService)
         {
             this.httpContext = httpContextAccessor.HttpContext;
             this.mainFilterExecutor = mainFilterExecutor;
+            this.jwtValidatorService = jwtValidatorService;
         }
 
 
         [FunctionName(nameof(JwtTest))]
-        [JwtValidatorService]
         public async Task<IActionResult> JwtTest(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+
+            await this.jwtValidatorService.ValidateJwt();
 
             this.httpContext.AuthorizedByClientSecret();
             /*

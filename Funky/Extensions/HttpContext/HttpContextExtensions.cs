@@ -55,7 +55,21 @@ namespace Funky.Filters.Extensions.HttpCtx
         /// </summary>
         /// <param name="ctx">Http context</param>
         /// <returns></returns>
-        public static string GetB2CTokenIdp(this HttpContext ctx) => ctx.User.Claims.FirstOrDefault(x => x.Type == AuthConstants.B2CIdp).Value;
+        public static string GetB2CTokenIdp(this HttpContext ctx) => ctx.User.Claims.FirstOrDefault(x => x.Type == AuthConstants.B2CIdpClaim).Value;
+
+        /// <summary>
+        /// Gets the current user unique "sub" or "nameidentifier" claim value
+        /// </summary>
+        /// <param name="ctx">Http context</param>
+        /// <returns></returns>
+        public static string GetUserIdentifier(this HttpContext ctx) => ctx.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+
+        /// <summary>
+        /// Gets the current user unique "oid" or "objectidentifier" claim value
+        /// </summary>
+        /// <param name="ctx">Http context</param>
+        /// <returns></returns>
+        public static string GetUserObjectIdentifier(this HttpContext ctx) => ctx.User.Claims.FirstOrDefault(x => x.Type == AuthConstants.ObjectIdentifierClaim).Value;
 
         /// <summary>
         /// ONLY FOR AZURE B2C, returns all the custom attributes (claims) present in the current token.
@@ -63,5 +77,20 @@ namespace Funky.Filters.Extensions.HttpCtx
         /// <param name="ctx">Http context</param>
         /// <returns></returns>
         public static IEnumerable<Claim> GetB2CCustomAttributes(this HttpContext ctx) => ctx.User.FindAll(x => x.Type.StartsWith(AuthConstants.B2CCustomAttrPrefix));
+
+        /// <summary>
+        /// Gets the user email value (only retrieves the first value if multiple email claims)
+        /// </summary>
+        /// <param name="ctx">Http context</param>
+        /// <returns></returns>
+        public static string GetUserEmail(this HttpContext ctx) => ctx.User.FindFirst(AuthConstants.UserEmailsClaim).Value;
+
+        /// <summary>
+        /// Gets all the user email claim values
+        /// </summary>
+        /// <param name="ctx">Http context</param>
+        /// <returns></returns>
+        public static IEnumerable<string> GetUserEmailList(this HttpContext ctx) => ctx.User.FindAll(AuthConstants.UserEmailsClaim).Select(x => x.Value);
+
     }
 }
